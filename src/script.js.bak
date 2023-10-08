@@ -1,0 +1,77 @@
+import { gsap } from "gsap";
+import * as $ from "jquery";
+import "./styles.css";
+
+$(document).ready(function () {
+  $("#showLetters").click(function () {
+    // Display ASCII letters from A-Z and a-z
+    $("#output").html("Code\tCharacter<br>");
+    for (let i = 65; i <= 90; i++) {
+      $("#output").append(i + "\t" + String.fromCharCode(i) + "<br>");
+    }
+    for (let i = 97; i <= 122; i++) {
+      $("#output").append(i + "\t" + String.fromCharCode(i) + "<br>");
+    }
+  });
+
+  $("#showSpecChars").click(function () {
+    // Display special characters with their ASCII codes
+    $("#output").html("Code\tCharacter<br>");
+    for (let i = 33; i <= 47; i++) {
+      $("#output").append(i + "\t" + String.fromCharCode(i) + "<br>");
+    }
+    for (let i = 58; i <= 64; i++) {
+      $("#output").append(i + "\t" + String.fromCharCode(i) + "<br>");
+    }
+    for (let i = 91; i <= 96; i++) {
+      $("#output").append(i + "\t" + String.fromCharCode(i) + "<br>");
+    }
+  });
+
+  $("#startPractice").click(function () {
+    // Clear the output and user input field
+    $("#output").html("");
+    $("#userInput").val("").css("display", "block").focus();
+
+    // Generate a random ASCII code between 32 and 126 (inclusive)
+    const randomAscii = Math.floor(Math.random() * (127 - 32) + 32);
+
+    // Display the generated ASCII character and start the timer
+    $("#output").html(
+      `Di el caracter correspondiente para el código ${randomAscii}<br>`
+    );
+
+    // Timer countdown
+    const timerElement = $("#timer");
+    const timeElement = $("#time");
+    let remainingTime = 10; // 10 seconds countdown
+
+    const timerInterval = setInterval(function () {
+      timeElement.text(remainingTime);
+      remainingTime--;
+
+      if (remainingTime < 0) {
+        clearInterval(timerInterval);
+        $("#userInput").prop("disabled", true);
+        $("#output").append("<div style='color: red;'>Tiempo agotado</div>");
+      }
+    }, 1000);
+
+    // Check user input on pressing Enter key
+    $("#userInput").on("keydown", function (event) {
+      if (event.key === "Enter") {
+        const userInput = $(this).val();
+
+        // Check if the user's input matches the generated character
+        if (userInput === String.fromCharCode(randomAscii)) {
+          clearInterval(timerInterval);
+          $("#userInput").prop("disabled", true);
+          $("#output").append("<div style='color: green;'>¡FELICIDADES!</div>");
+        } else {
+          $("#output").append("<div style='color: red;'>Incorrecto</div>");
+        }
+      }
+    });
+  });
+});
+
