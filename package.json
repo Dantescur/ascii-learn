@@ -10,6 +10,7 @@
     "watch": "webpack --watch"
   },
   "dependencies": {
+    "@barba/core": "^2.9.7",
     "barba": "^1.0.0",
     "gsap": "^3.12.2",
     "jquery": "^3.7.1"
@@ -19,6 +20,8 @@
     "css-loader": "^6.8.1",
     "expose-loader": "^4.1.0",
     "html-loader": "^4.2.0",
+    "sass": "^1.69.0",
+    "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"

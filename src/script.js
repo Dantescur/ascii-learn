@@ -1,6 +1,8 @@
+import barba from '@barba/core';
 import { gsap } from "gsap";
 import * as $ from "jquery";
-import "./styles.css";
+import "./styles.scss";
+import "./practice.scss";
 
 $(document).ready(function () {
   const showLettersButton = $("#showLetters");
@@ -112,4 +114,26 @@ $(document).ready(function () {
 
   // Define the animation
   tl.from(allElements, { opacity: 0, duration: 2, stagger: 0.2, ease: "power2.out" });
+});
+
+barba.init({
+  transitions: [{
+    name: 'opacity-transition',
+    async leave(data) {
+      // Animate the current container out
+      await gsap.to(data.current.container, {
+        opacity: 0,
+        duration: 0.5, // Adjust the duration as needed
+      });
+      // After the animation, remove the container from the DOM
+      data.current.container.remove();
+    },
+    enter(data) {
+      // Animate the new container in
+      gsap.from(data.next.container, {
+        opacity: 0,
+        duration: 0.5, // Adjust the duration as needed
+      });
+    }
+  }]
 });

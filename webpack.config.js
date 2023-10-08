@@ -1,9 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/script.js',
+  entry: {
+    main: './src/script.js',
+    practice: './src/practice.js'
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
@@ -13,8 +16,8 @@ module.exports = {
         use: 'html-loader',
       },
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(js|mjs)$/,
