@@ -1,39 +1,46 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+/* Reset some default styles */
+body, h1, button {
+    margin: 0;
+    padding: 0;
 }
 
+/* Apply a background color to the body */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+/* Center the container in the middle of the page */
 .container {
-    max-width: 800px;
+    text-align: center;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    text-align: center;
     background-color: #fff;
+    border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Style the heading */
 h1 {
+    color: #333;
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-label {
-    font-size: 18px;
+/* Style the buttons */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-input[type="text"] {
-    padding: 10px;
-    font-size: 18px;
-}
-
-/* Apply a consistent style to all buttons */
 button {
     padding: 10px 20px;
-    margin: 10px;
-    font-size: 18px;
-    background-color: #007bff;
+    background-color: #007BFF;
     color: #fff;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -42,12 +49,16 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Style the output container */
 #output {
     margin-top: 20px;
-    font-size: 18px;
+    padding: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-height: 100px;
 }
 
-#timer {
-    text-align: center;
+.output-item {
+    margin-bottom: 10px;
 }
-

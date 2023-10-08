@@ -1,72 +1,115 @@
 import { gsap } from "gsap";
-import * as $ from "jquery"; // Import jQuery
+import * as $ from "jquery";
 import "./styles.css";
 
 $(document).ready(function () {
   const showLettersButton = $("#showLetters");
   const showSpecCharsButton = $("#showSpecChars");
-  const startPracticeButton = $("#startPractice");
   const outputDiv = $("#output");
-  const timerDiv = $("#timer");
-  const timeSpan = $("#time");
-  const userInputField = $("#userInput");
 
-  showLettersButton.click(function () {
-    outputDiv.html("Code\tCharacter<br>");
+  function displayLetters() {
+    // Clear the output
+    outputDiv.html("");
+
+    // Create a container for the items
+    const itemsContainer = $("<div>").addClass("output-items");
+
+    // Add letters (A to Z and a to z) to the container
     for (let i = 65; i <= 90; i++) {
-      outputDiv.append(`${i}\t${String.fromCharCode(i)}<br>`);
+      const code = i;
+      const character = String.fromCharCode(i);
+
+      const item = $("<div>")
+        .addClass("output-item")
+        .data("code", code)
+        .text(`${code}   ${character}`); // Add spaces for spacing
+
+      itemsContainer.append(item);
     }
     for (let i = 97; i <= 122; i++) {
-      outputDiv.append(`${i}\t${String.fromCharCode(i)}<br>`);
+      const code = i;
+      const character = String.fromCharCode(i);
+
+      const item = $("<div>")
+        .addClass("output-item")
+        .data("code", code)
+        .text(`${code}   ${character}`); // Add spaces for spacing
+
+      itemsContainer.append(item);
     }
+
+    // Append the container to the output
+    outputDiv.append(itemsContainer);
+
+    // Animate the items
+    animateItems(itemsContainer.children());
+  }
+
+  function displaySpecialChars() {
+    // Clear the output
+    outputDiv.html("");
+
+    // Create a container for the items
+    const itemsContainer = $("<div>").addClass("output-items");
+
+    // Add special characters to the container
+    const specialCharRanges = [
+      { start: 33, end: 47 },
+      { start: 58, end: 64 },
+      { start: 91, end: 96 },
+    ];
+
+    specialCharRanges.forEach((range) => {
+      for (let i = range.start; i <= range.end; i++) {
+        const code = i;
+        const character = String.fromCharCode(i);
+
+        const item = $("<div>")
+          .addClass("output-item")
+          .data("code", code)
+          .text(`${code}   ${character}`); // Add spaces for spacing
+
+        itemsContainer.append(item);
+      }
+    });
+
+    // Append the container to the output
+    outputDiv.append(itemsContainer);
+
+    // Animate the items
+    animateItems(itemsContainer.children());
+  }
+
+  function animateItems(items) {
+    // Use GSAP for animation
+    const tl = gsap.timeline();
+
+    // Add numbers and characters to the output with animation
+    tl.staggerFromTo(
+      items,
+      0.5, // Animation duration
+      { opacity: 0, y: -20 }, // Start state (above the screen)
+      { opacity: 1, y: 0, ease: "power2.out" }, // End state (drop down), ease for smoothness
+      0.1, // Stagger increment (controls the delay between each item)
+    );
+
+    // Use GSAP to play the animation
+    tl.play();
+  }
+
+  showLettersButton.click(function () {
+    displayLetters();
   });
 
   showSpecCharsButton.click(function () {
-    outputDiv.html("Code\tCharacter<br>");
-    for (let i = 33; i <= 47; i++) {
-      outputDiv.append(`${i}\t${String.fromCharCode(i)}<br>`);
-    }
-    for (let i = 58; i <= 64; i++) {
-      outputDiv.append(`${i}\t${String.fromCharCode(i)}<br>`);
-    }
-    for (let i = 91; i <= 96; i++) {
-      outputDiv.append(`${i}\t${String.fromCharCode(i)}<br>`);
-    }
+    displaySpecialChars();
   });
 
-  startPracticeButton.click(function () {
-    outputDiv.html("");
-    userInputField.val("").focus(); // Clear and focus the input field
+  const allElements = $(".container *"); // Select all elements within the .container
 
-    const randomAscii = Math.floor(Math.random() * (127 - 32) + 32);
-    outputDiv.html(
-      `Di el carácter correspondiente para el código ${randomAscii}<br>`,
-    );
+  // Create a GSAP timeline
+  const tl = gsap.timeline();
 
-    let remainingTime = 10;
-    const timerInterval = setInterval(function () {
-      timeSpan.text(`${remainingTime} segundos restantes`);
-      remainingTime--;
-
-      if (remainingTime < 0) {
-        clearInterval(timerInterval);
-        userInputField.prop("disabled", true);
-        outputDiv.append("<div style='color: red;'>Tiempo agotado</div>");
-      }
-    }, 1000);
-
-    userInputField.keydown(function (event) {
-      if (event.key === "Enter") {
-        const userInput = userInputField.val();
-
-        if (userInput === String.fromCharCode(randomAscii)) {
-          clearInterval(timerInterval);
-          userInputField.prop("disabled", true);
-          outputDiv.append("<div style='color: green;'>¡FELICIDADES!</div>");
-        } else {
-          outputDiv.append("<div style='color: red;'>Incorrecto</div>");
-        }
-      }
-    });
-  });
+  // Define the animation
+  tl.from(allElements, { opacity: 0, duration: 2, stagger: 0.2, ease: "power2.out" });
 });
