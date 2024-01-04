@@ -1,27 +1,28 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
   entry: {
-    main: './src/script.js',
-    practice: './src/practice.js'
+    main: "./src/script.js",
+    practice: "./src/practice.js",
   },
+  mode: "development",
   output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "[name].js",
+    path: path.resolve(__dirname, "dist"),
   },
   module: {
     rules: [
       {
         test: /\.html$/,
-        use: 'html-loader',
+        use: "html-loader",
       },
       {
         test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(js|mjs)$/,
-        use: 'babel-loader',
+        use: "babel-loader",
       },
       {
         test: require.resolve("jquery"),
